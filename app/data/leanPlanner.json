@@ -1,0 +1,117 @@
+{
+  "Teams": {
+    "Generic": {
+      "Members": {
+        "212028625": {
+          "name": "Troy Birk"
+        },
+        "212478235": {
+          "name": "Andrew Lee"
+        },
+        "502451688": {
+          "name": "Vinay Putti"
+        },
+        "502554229": {
+          "name": "Rama Guntu"
+        },
+        "212450145": {
+          "name": "Omar Lewis"
+        },
+        "212472040": {
+          "name": "Violet Temenuzhka"
+        },
+        "212473135": {
+          "name": "Ricardo Iñiguez"
+        },
+        "212472171": {
+          "name": "Mark Schlottke"
+        }
+      },
+      "Quarters": {
+        "Q116": {
+          "confidence": "4",
+          "id": "Q116",
+          "quarterMemberVotes": {
+            "212028625": 5,
+            "212478235": 5,
+            "502451688": 5,
+            "502554229": 5,
+            "212450145": 5,
+            "212472040": 5,
+            "212473135": 5,
+            "212472171": 5
+          },
+          "sprints": {
+            "Q1S1" : {
+              "confidence": 4.375,
+              "name": "Q1S1",
+              "sprintMemberVotes": {
+                "212028625": 5,
+                "212478235": 5,
+                "502451688": 5,
+                "502554229": 5,
+                "212450145": 5,
+                "212472040": 5,
+                "212473135": 5,
+                "212472171": 5
+              },
+              "stories" : ["US1", "US2"]
+            }
+          }
+        }
+      },
+      "UserStories": {
+        "US1" : {
+          "bowerized": false,
+          "dependencies": 4,
+          "description": "Creating a numeric block for Resp",
+          "dod": true,
+          "drs": true,
+          "id": "US1",
+          "integrationTests": false,
+          "name": "Resp Numeric",
+          "points": "3",
+          "solarflare": false,
+          "sprint": "Q1S1",
+          "storyMemberVotes": {
+            "212028625": 5,
+            "212478235": 5,
+            "502451688": 5,
+            "502554229": 5,
+            "212450145": 5,
+            "212472040": 5,
+            "212473135": 5,
+            "212472171": 5
+          },
+          "viewer": true,
+          "vote": 10.75
+        },
+        "US2" : {
+          "bowerized": false,
+          "dependencies": 4,
+          "description": "Creating a waveform for Resp",
+          "dod": true,
+          "drs": true,
+          "id": "US2",
+          "integrationTests": true,
+          "name": "Resp Waveform",
+          "points": "3",
+          "solarflare": true,
+          "sprint": "Q1S1",
+          "storyMemberVotes": {
+            "212028625": 5,
+            "212478235": 5,
+            "502451688": 5,
+            "502554229": 5,
+            "212450145": 5,
+            "212472040": 5,
+            "212473135": 5,
+            "212472171": 5
+          },
+          "viewer": true,
+          "vote": 8.75
+        }
+      }
+    }
+  }
+}

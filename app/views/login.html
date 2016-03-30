@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <md-card class="md-whiteframe-9dp" layout="column" layout-align="center center">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Login</span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+          <div layout="column" layout-align="center center">
+            <form name="login" ng-submit="login.$valid && showHomePage()">
+              <div class="form-group" layout="column" layout-align="center center">
+                <md-input-container md-is-error="login.team.$invalid && (login.$submitted || login.team.$dirty)">
+                  <label>Team</label>
+                  <md-select name="team" placeholder="Team" style="min-width: 250px;" ng-model="selectedTeam"
+                             ng-required="true">
+                    <md-option ng-repeat="(k,v) in teams" value="{{k}}">
+                      {{k}}
+                    </md-option>
+                  </md-select>
+                  <!-- <div ng-messages="login.team.$error" ng-if="login.$submitted || login.team.$touched">
+                     <div ng-message="required">Please select Team.</div>
+                   </div>-->
+                </md-input-container>
+              </div>
+              <div class="form-group" layout="column" layout-align="center center">
+                <md-input-container md-is-error="login.member.$invalid && (login.$submitted || login.member.$dirty)">
+                  <label>Member</label>
+                  <md-select name="member" placeholder="Member" style="min-width: 250px;" ng-model="selectedMember"
+                             ng-required="true">
+                    <md-option ng-repeat="(k,member)  in teams[selectedTeam].Members" value="{{k}}">
+                      {{member.name}}
+                    </md-option>
+                  </md-select>
+                  <!--<div ng-messages="login.member.$error" ng-if="login.$submitted || login.member.$touched">
+                    <div ng-message="required">Please select Team.</div>
+                  </div>-->
+                </md-input-container>
+              </div>
+              <md-button class="md-raised md-primary" ng-click="login.$valid && showHomePage()" ng-disabled="login.$invalid">Login</md-button>
+            </form>
+          </div>
+        </md-card-content>
+      </md-card>
+    </div>
+  </div>
+</div>
+

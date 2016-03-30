@@ -1,0 +1,42 @@
+<md-dialog aria-label="addUserStory">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>New User Story</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        X
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content style="width:500px;height:210px;">
+    <div layout="column" layout-align="center center">
+      <div flex="100" style="width: 90%;">
+        <form name="addUserStory">
+          <br>
+          <md-input-container class="md-block">
+            <label>Title</label>
+            <input required md-no-asterisk name="title" ng-model="userStory.title">
+
+            <div ng-messages="addUserStory.title.$error">
+              <div ng-message="required">This is required.</div>
+            </div>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Description</label>
+            <textArea name="clientName" ng-model="userStory.description"></textArea>
+          </md-input-container>
+        </form>
+      </div>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions layout="row">
+    <span flex></span>
+    <md-button ng-click="cancel();">
+      Cancel
+    </md-button>
+    <md-button ng-click="addUserStory.$valid && answer(userStory)" style="margin-right:20px;">
+      Add
+    </md-button>
+  </md-dialog-actions>
+
+</md-dialog>

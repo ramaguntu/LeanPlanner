@@ -1,0 +1,39 @@
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.pagination>li>a, .pagination>li>span {
+  width: 42px;
+  height: 42px;
+  margin: 5px !important;
+  border-radius: 50% !important;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.pagination {
+  margin: 0;
+}
+.custab{
+  border: 1px solid #ccc;
+  padding: 5px;
+  margin: 1% 0;
+  box-shadow: 3px 3px 2px #ccc;
+  transition: 0.5s;
+}
+.custab:hover{
+  box-shadow: 3px 3px 0px transparent;
+  transition: 0.5s;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+  z-index: 3;
+  color: black;
+  cursor: default;
+  background-color: rgb(178,255,89);
+  transition: background-color 0.35s cubic-bezier(0.35, 0, 0.25, 1);
+  border-color: #337ab7;
+}
+
+md-checkbox.md-checked.green .md-icon {
+  background-color: rgb(178,255,89);
+  border: 1px solid black;
+}

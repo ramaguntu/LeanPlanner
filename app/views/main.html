@@ -1,0 +1,256 @@
+<div>
+
+  <md-tabs class="light-green" md-dynamic-height="" md-border-bottom="" md-selected="selectedIndex">
+    <md-tab label="Sprint Confidence">
+      <md-content class="md-padding">
+        <md-card class="md-whiteframe-9dp" ng-repeat="(quarterId,quarter) in quarters">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">{{quarterId}}</span>
+              <span class="md-subhead" ng-show="quarter.confidence">Team Confidence {{quarter.confidence}}</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-content>
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                <div layout="row" layout-align="end center">
+                  <md-button class="md-raised md-fab md-mini" ng-click="showAddSprintModal($event, quarterId)" aria-label="Add">
+                    <md-tooltip md-direction="bottom">
+                      Add Sprint
+                    </md-tooltip>
+                    +</md-button>
+                </div>
+                <table class="table table-striped custab table-hover" id="task-table">
+                  <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Sprint</th>
+                    <th>Team Confidence</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr ng-repeat="(sprintId,sprint) in quarter.sprints">
+                    <td>{{$index + 1}}</td>
+                    <td><a href="javascript:void(0)"
+                           ng-click="showSprintDetails(quarterId, sprintId)">{{sprint.name}}</a>
+                    </td>
+                    <td>{{sprint.confidence}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </md-card-content>
+        </md-card>
+      </md-content>
+    </md-tab>
+
+    <md-tab label="Sprint Details">
+      <md-content class="md-padding">
+        <md-card class="md-whiteframe-9dp">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline" ng-show="sprintDetails">{{sprintDetails.name}}</span>
+              <span class="md-headline" ng-show="!sprintDetails">Please select sprint</span>
+              <span class="md-subhead" ng-show="sprintDetails">Team Confidence {{sprintDetails.confidence}}</span>
+            </md-card-title-text>
+
+          </md-card-title>
+          <md-card-content>
+
+            <div layout="row" layout-align="space-around start" layout-xs="column" layout-sm="column" ng-show="sprintDetails">
+              <div flex-sm="100" flex-xs="100" flex="45">
+                <md-input-container class="md-block">
+                  <label>Sprint Capacity</label>
+                  <input ng-model="sprintDetails.capacity" ng-change="syncSprintDetails()">
+                </md-input-container>
+                <p class="md-body-2">Total Story Points: {{getSprintStoryPoints(sprintUserStories)}}</p>
+                <div layout="row" layout-align="end center">
+                  <h4 style="width: 100%; text-align: left;">User Stories</h4>
+                  <md-button class="md-raised md-fab md-mini" ng-click="showAddUserStoryModal($event)" aria-label="Add">
+                    <md-tooltip md-direction="bottom">
+                      Add User Story
+                    </md-tooltip>
+                    +</md-button>
+                </div>
+
+                <table class="table table-striped custab table-hover" id="task-table">
+                  <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>User Stories</th>
+                    <th>Actual Vote</th>
+                    <th>My Vote</th>
+                    <th>Point Average</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr ng-repeat="userStory in sprintUserStories">
+                    <td>{{$index + 1}}</td>
+                    <td><a href="javascript:void(0)" ng-click="showStoryDetails(userStory.id)">{{userStory.name}}</a>
+                    </td>
+                    <td>{{userStory.actualVote}}</td>
+                    <td>{{userStory.storyMemberVotes[memberId]}}</td>
+                    <td>{{userStory.vote}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div flex-sm="100" flex-xs="100" flex="45">
+                <div>
+                  <h5>My Vote : {{sprintDetails.sprintMemberVotes[memberId]}}</h5>
+                  <ul class="pagination">
+                    <li ng-class="{'active' : isVoted(sprintDetails.sprintMemberVotes[memberId], sprintVote)}"
+                        ng-repeat="sprintVote in [1, 2, 3, 4, 5]">
+                      <md-button ng-class="{'md-raised' : !isVoted(sprintDetails.sprintMemberVotes[memberId], sprintVote)}" class="md-fab md-mini" aria-label="Add" ng-click="updateSprintConfidence(sprintVote);">{{sprintVote}}</md-button>
+                    </li>
+                  </ul>
+                </div>
+                <h4>Team members points</h4>
+
+                <div class="custyle">
+                  <table class="table table-striped custab">
+                    <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Vote</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="(memberId, vote) in sprintDetails.sprintMemberVotes">
+                      <td>{{ $index + 1}}</td>
+                      <td>{{getMemberName(memberId)}}</td>
+                      <td>{{vote}}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </md-card-content>
+        </md-card>
+      </md-content>
+    </md-tab>
+
+
+    <md-tab label="User Stories">
+      <md-content class="md-padding">
+        <md-card class="md-whiteframe-9dp">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">User Story Voting Status</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-content>
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                <table class="table table-striped custab table-hover" id="task-table">
+                  <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>User Stories</th>
+                    <th>Sprint</th>
+                    <th>Actual Vote</th>
+                    <th>My Vote</th>
+                    <th>Point Average</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr ng-repeat="(storyId, story) in userStories">
+                    <td>{{$index + 1}}</td>
+                    <td><a href="javascript:void(0)" ng-click="showStoryDetails(story.id)">{{story.name}}</a></td>
+                    <td>{{story.sprint}}</td>
+                    <td>{{story.actualVote}}</td>
+                    <td>{{story.storyMemberVotes[memberId]}}</td>
+                    <td>{{story.vote}}</td>
+
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </md-card-content>
+        </md-card>
+      </md-content>
+    </md-tab>
+    <md-tab label="User Story Details">
+      <md-content class="md-padding">
+        <md-card class="md-whiteframe-9dp">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline" ng-show="userStory">{{userStory.name}}</span>
+              <span class="md-headline" ng-show="!userStory">Please select user story</span>
+              <span class="md-subhead" ng-show="userStory">{{userStory.description}}</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-content>
+            <div class="row" ng-show="userStory">
+              <div class="col-md-10 col-md-offset-1">
+                <div>
+                  <h5>Sprint : {{userStory.sprint}}</h5><br>
+                  <md-checkbox class="green" ng-change="syncUserStory()" ng-model="userStory.dod" aria-label="DoD">
+                    DoD
+                  </md-checkbox>
+                  <md-checkbox class="green" ng-change="syncUserStory()" ng-model="userStory.drs" aria-label="DRS">
+                    DRS
+                  </md-checkbox>
+                  <md-checkbox class="green" ng-change="syncUserStory()" ng-model="userStory.integrationTests"
+                               aria-label="IntegrationTests">
+                    Integration Tests
+                  </md-checkbox>
+                  <md-checkbox class="green" ng-change="syncUserStory()" ng-model="userStory.bowerized"
+                               aria-label="Bowerized">
+                    Bower-ized
+                  </md-checkbox>
+                  <md-checkbox class="green" ng-change="syncUserStory()" ng-model="userStory.solarflare"
+                               aria-label="Solarflare">
+                    Solarflare
+                  </md-checkbox>
+                  <md-checkbox class="green" ng-change="syncUserStory()" ng-model="userStory.viewer"
+                               aria-label="Viewer">
+                    Viewer
+                  </md-checkbox>
+                  <h5>Actual Vote : {{userStory.actualVote}}</h5>
+                  <ul class="pagination">
+                    <li ng-repeat="storyPoint in [1, 2, 3, 5, 8, 13, 21, 34]">
+                      <md-button ng-class="{'md-raised' : !isVoted(userStory.actualVote, storyPoint)}"
+                                 class="md-fab md-mini" aria-label="Add" ng-click="updateStoryActualVote(storyPoint);">{{storyPoint}}</md-button>
+                    </li>
+                  </ul>
+                  <h5>My Vote : {{userStory.storyMemberVotes[memberId]}}</h5>
+                  <ul class="pagination">
+                    <li ng-repeat="storyPoint in [1, 2, 3, 5, 8, 13, 21, 34]">
+                      <md-button ng-class="{'md-raised' : !isVoted(userStory.storyMemberVotes[memberId], storyPoint)}"
+                                 class="md-fab md-mini" aria-label="Add" ng-click="updateStoryPoints(storyPoint);">{{storyPoint}}</md-button>
+                    </li>
+                  </ul>
+                </div>
+                <br>
+                <h5>Team average points : {{getStoryTeamAveragePoints() || 0}}</h5>
+                <div class="row col-md-4 col-md-right-offset-3 custyle">
+                  <table class="table table-striped custab">
+                    <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Vote</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="(memberId, vote) in userStory.storyMemberVotes">
+                      <td>{{ $index + 1}}</td>
+                      <td>{{getMemberName(memberId)}}</td>
+                      <td>{{vote}}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </md-card-content>
+        </md-card>
+      </md-content>
+    </md-tab>
+  </md-tabs>
+</div>
